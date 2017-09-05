@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="shortcut icon" href="images/pics_3.jpg"  />
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="js/ajaxfileupload.js"></script>
+    <script src="js/showpic.js"></script>
+
+    <script>
+        function addUser(){
+            var uname=$("#uname").val();
+            var pwd=$("#pwd").val();
+
+            //使用ajax上传文件
+            $.ajaxFileUpload({
+                url:"/addUserInfo",   //请求的地址   相对路劲
+                data:{uname:uname,pwd:pwd},   //传参
+                fileElementId:["photo"],    //需要上传图片域的id
+                dataType:"json",           //后台返回的数据类型
+                success:function(data){
+                     if(data.code==0){
+                         //注册失败，
+                         console.log(data.message);
+                         alert("网络连接失败，请稍后重试");
+                     }else if(data.code==1){
+                         //注册成功
+                         location.href="login.html";
+                     }
+                },    //成功的时候回调函数
+                error:function(){    //失败的时候回调函数
+
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<!--注册界面-->
+    <form method="post" enctype="multipart/form-data" style="float: left">
+        <ul>
+            <li><label for="uname">用户名：</label>
+                <input type="text" name="uname" id="uname" />
+            </li><br />
+            <li><label for="pwd">密&nbsp;码：</label>
+                <input type="password" name="pwd" id="pwd" />
+            </li><br />
+            <li>头&nbsp;像：
+                <input type="file" id="photo" name="photo" onchange="previewImage(this,'pic_show')" />
+            </li><br />
+            <li><input type="button" value="注册" onclick="addUser()" /></li>
+            <!--这里是用ajax发送，不同action，所以不用submit(这里是ajax文件上传)-->
+        </ul>
+    </form>
+<div style="float: right;width:400px;margin-right: 100px;">
+    <fieldset id="pic_show">
+          <legend>图片预览</legend>
+    </fieldset>
+</div>
+</body>
+</html>

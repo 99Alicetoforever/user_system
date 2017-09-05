@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/index.css" />
+    <script src="../js/jquery-1.12.4.min.js"></script>
+    <script>
+        $(function(){
+            $.post("../showUser",null,function(data){
+                if(data=='0'){
+                    alert("网络连接失败，请稍后重试");
+                }else{
+                    var str="";
+                    $.each(data,function(index,item){
+                        str+="<tr><td>"+item.usid+"</td><td>"+item.uname+"</td><td>"+item.pwd+"</td><td><img " +
+                                "src='.."+item.photo+"' width='100px'"+"height='100px'/></td></tr>";
+                    });
+                    $("#userInfo").html(str);
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+     <table width="80%" border="1px">
+         <thead>
+             <th>用户编号</th>
+             <th>用户姓名</th>
+             <th>用户密码</th>
+             <th>用户头像</th>
+         </thead>
+         <tbody id="userInfo" align="center">
+
+         </tbody>
+     </table>
+</body>
+</html>
